@@ -1,0 +1,154 @@
+%%%%%%%%%%%%%%%%%%%%%%% file template.tex %%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% This is a template file for IFPEN OGST Journal
+%
+% Copy it to a new file with a new name and use it as the basis
+% for your article
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%% EDP Science %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%\documentclass[option comma separated list]{ifpen-ogst}
+\documentclass{ifpen-ogst}
+%
+% Put here some packages required or/and some personnal commands
+%
+\begin{document}
+%
+\title{Insert your title here}
+%
+% if title is too large for page header
+%
+%%%\titlerunning{Short title}
+%
+% subtitle is optionnal
+%
+%%%\subtitle{Do you have a subtitle?\\ If so, write it here}
+\author{First author\inst{\ref{first},\ref{finish}} \and
+        % corresponding author following by \correspondingauthor
+        Second author\inst{\ref{second}}\correspondingauthor
+        % etc.
+}
+%
+% if author is too large for page header
+%
+%%%\authorrunning{Short title}
+%
+\institute{Insert the first address here\email{Mail address for first
+    institute}\label{first} \and
+           the second here\email{Mail address for second
+             institute}\label{second} \and
+           Last address\email{Mail address for last
+             institute}\label{finish}
+          }
+%
+\resume{%
+  \frenchtitle{abstract title (optionnal)}
+  Insert your french abstract here.
+}
+\abstract{%
+  \englishtitle{abstract title (optionnal)}
+  Insert your english abstract here.
+}
+%
+\maketitle
+%
+\section{Introduction}
+\label{intro}
+Your text comes here. Separate text sections with
+\section{Section title}
+\label{sec-1}
+For bibliography use \cite{RefJ}
+\subsection{Subsection title}
+\label{sec-2}
+Don't forget to give each section, subsection, subsubsection, and
+paragraph a unique label (see Sect.~\ref{sec-1}).
+
+For one-column wide figures use syntax of figure~\ref{fig-1}
+\begin{figure}
+% Use the relevant command for your figure-insertion program
+% to insert the figure file.
+\centering
+\includegraphics[width=1cm]{tiger}
+\caption{Please write your figure caption here}
+\label{fig-1}       % Give a unique label
+\end{figure}
+
+For two-column wide figures use syntax of figure~\ref{fig-2}
+\begin{figure*}
+% Use the relevant command for your figure-insertion program
+% to insert the figure file. See example above.
+% If not, use
+\vspace*{5cm}       % Give the correct figure height in cm
+\caption{Please write your figure caption here}
+\label{fig-2}       % Give a unique label
+\end{figure*}
+
+For figures without top rule use syntax of figure~\ref{fig-3}
+\begin{figure}
+\notoprule
+% Use the relevant command for your figure-insertion program
+% to insert the figure file.
+\includegraphics[width=0.75\columnwidth]{tiger}
+\caption{Please write your figure caption here}
+\label{fig-3}       % Give a unique label
+\end{figure}
+
+For figures without bottom rule use syntax of figure~\ref{fig-4}
+\begin{figure}
+\nobottomrule
+% Use the relevant command for your figure-insertion program
+% to insert the figure file.
+\includegraphics[height=1cm]{tiger}
+\caption{Please write your figure caption here}
+\label{fig-4}       % Give a unique label
+\end{figure}
+
+For figures without any rule use syntax of figure~\ref{fig-5}
+\begin{figure}
+\notoprule         % Very first command!
+\nobottomrule      % Anywhere before \caption
+% Use the relevant command for your figure-insertion program
+% to insert the figure file.
+\includegraphics[scale=0.2]{tiger}
+\caption{Please write your figure caption here}
+\label{fig-5}       % Give a unique label
+\end{figure}
+
+For tables use syntax in table~\ref{tab-1}.
+\begin{table}
+\caption{Please write your table caption here}
+\label{tab-1}       % Give a unique label
+% For LaTeX tables you can use
+\begin{tabular}{lll}
+\hline
+first & second & third  \\\hline
+number & number & number \\
+number & number & number \\\hline
+\end{tabular}
+% Or use
+\vspace*{5cm}  % with the correct table height
+\end{table}
+%
+% BibTeX or Biber users please use
+% \bibliography{name or your bibliography database}
+%
+% Non-BibTeX users please use
+%
+\begin{thebibliography}{}
+%
+% and use \bibitem to create references.
+%
+\bibitem{RefJ}
+% Format for Journal Reference
+FirstName SecondNameAuthor, Journal \textbf{Volume}, (year) page numbers.
+% Format for books
+\bibitem{RefB}
+FirstName SecondNameAuthor, AnotherFirstName AnotherSecondName,
+\textit{Book title} (Publisher, place year) page numbers
+% etc
+\end{thebibliography}
+
+\end{document}
+
+% end of file template.tex
+
