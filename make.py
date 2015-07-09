@@ -20,7 +20,7 @@ EXTENSION_MAP = {
 }
 
 
-def process(base_path, target_path):
+def process(base_path, target_path, call_mktexlsr=True):
 	for dirpath, dirnames, filenames in walk(base_path):
 		for subdir in dirnames:
 			if subdir.startswith('.'):
@@ -43,7 +43,8 @@ def process(base_path, target_path):
 			logger.info("copying %s to %s", src_filename, 
 					dst_filename)
 			copyfile(src_filename, dst_filename)
-	check_call('mktexlsr "%s"' % target_path, shell=True)
+	if call_mktexlsr:
+		check_call('mktexlsr "%s"' % target_path, shell=True)
 
 
 def main():
@@ -60,9 +61,11 @@ def main():
 	parser.add_argument('--quiet', '-q', dest='verbose',
 			action='store_const', const=ERROR, 
 			help='quiet mode')
+	parser.add_argument('--no-mktexlsr', dest='no_mktexlsr', action='store_true',
+			help='do not call mktexlsr')
 	args = parser.parse_args()
 	basicConfig(stream=stdout, level=args.verbose)
-	process(args.base, args.target)
+	process(args.base, args.target, not args.no_mktexlsr)
 
 if __name__ == '__main__':
 	main()
