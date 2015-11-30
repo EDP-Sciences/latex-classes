@@ -107,11 +107,11 @@
   \def\woc@input{\RequirePackage[utf8]{inputenc}}%
 }
 %
-\DeclareOption{english}{%
-  \def\woc@language{\RequirePackage[frenchb, english]{babel}}%
+\DeclareOption{anglais}{%
+  \def\woc@language{\RequirePackage[english]{babel}}%
 }
 \DeclareOption{francais}{%
-  \def\woc@language{\RequirePackage[english, frenchb]{babel}}%
+  \def\woc@language{\RequirePackage[english,frenchb]{babel}}%
 }
 %
 \DeclareOption{showoverfull}{\setlength\overfullrule{0pt}}
@@ -142,7 +142,7 @@
 }
 %
 % default options
-\ExecuteOptions{english,onecolumn,online,utf8,showoverfull,bibnumber}
+\ExecuteOptions{anglais,onecolumn,online,utf8,showoverfull,bibnumber}
 %
 \ProcessOptions
 % Required packages
@@ -825,3 +825,4 @@ e-mail: \protect\@email{#1}%
 \endinput
 %%
 %% End of file `webofc.cls'
+
