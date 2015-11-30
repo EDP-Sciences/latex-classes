@@ -16,8 +16,8 @@
 %%   Right bracket \]     Circumflex    \^     Underscore    \_
 %%   Grave accent  \`     Left brace    \{     Vertical bar  \|
 %%   Right brace   \}     Tilde         \~}
-\def\filedate{2011/03/10}
-\def\fileversion{1.2}
+\def\filedate{2015/11/30}
+\def\fileversion{2.1}
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
 \ProvidesClass{ifpen-ogst}
               [\filedate\space v\fileversion\space
@@ -88,7 +88,7 @@
   \def\ogst@biblio{%
     \bibpunct{[}{]}{,}{n}{}{}%
     \def\@biblabel##1{##1}%
-    \bibliographystyle{plainnat}%
+    \bibliographystyle{unsrtnat}%
     % Pour que cela fonctionne avec certaines versions de natbib, il
     % ne faut pas supposer que \bibfont préexiste
 %    \renewcommand\bibfont{\@BibliographyFont}%
@@ -99,7 +99,7 @@
 \DeclareOption{bibauthoryear}{%
   \def\ogst@biblio{%
     \bibpunct{(}{)}{,}{a}{}{}%
-    \bibliographystyle{plainnat}%
+    \bibliographystyle{unsrtnat}%
     % Pour que cela fonctionne avec certaines versions de natbib, il
     % ne faut pas supposer que \bibfont préexiste
 %    \renewcommand\bibfont{\@BibliographyFont}%
