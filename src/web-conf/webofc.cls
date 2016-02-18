@@ -289,6 +289,7 @@
 \newcommand\@TitleFont{\normalfont\fontsize{14pt}{16pt}\sffamily\bfseries}
 \newcommand\@SubtitleFont{\normalfont\fontsize{12pt}{14pt}\sffamily\bfseries}
 \newcommand\@AuthorFont{\normalfont\normalsize\sffamily}
+\newcommand\@LastNameAuthorFont{\bfseries}
 \newcommand\@InstituteFont{\normalfont\small\sffamily\slshape}
 \newcommand\@ThanksFont{\normalfont\fontsize{8pt}{9.6pt}\selectfont}
 \newcommand\@ThanksEmail{\normalfont\fontsize{8pt}{9.6pt}\selectfont}
@@ -444,6 +445,8 @@ e-mail: \protect\@email{#1}%
 %
 % Parse authors, institutes, thanks, and email 
 %
+\def\firstname#1{{#1\protect}}
+\def\lastname#1{{\@LastNameAuthorFont#1}}
 \def\@parseauthor{%
   \count@ \z@
   \expandafter\@countand\@author\and\@nil\and
@@ -590,7 +593,7 @@ e-mail: \protect\@email{#1}%
       \woc@maketitle
       \endgroup \fi     
       \setcounter{footnote}{0}%
-      }
+}
 \newcommand\woc@maketitle{%
     \par\vspace*{\@VSpaceBeforeTitle}
       % title
@@ -630,7 +633,7 @@ e-mail: \protect\@email{#1}%
 \AtEndDocument{%
   \ifwoc@twocolumn
   \begin{strip}
-    \null \par
+    \null \par 
   \end{strip}
   \par\vspace*{\stretch{1}}
   \fi
@@ -825,4 +828,3 @@ e-mail: \protect\@email{#1}%
 \endinput
 %%
 %% End of file `webofc.cls'
-
