@@ -1,5 +1,5 @@
 %                                                                 aa.dem
-% AA vers. 8.3, LaTeX class for Astronomy & Astrophysics
+% AA vers. 9.0, LaTeX class for Astronomy & Astrophysics
 % demonstration file
 %                                                       (c) EDP Sciences
 %-----------------------------------------------------------------------
@@ -95,7 +95,7 @@
 
    \maketitle
 %
-%________________________________________________________________
+%-------------------------------------------------------------------
 
 \section{Introduction}
 
@@ -128,12 +128,10 @@
    protostellar cores and protogiant planets serve as a further
    motivation for this study.
 
-%__________________________________________________________________
-
+%--------------------------------------------------------------------
 \section{Baker's standard one-zone model}
 
-%                                     Two column figure (place early!)
-%______________________________________________ Gamma_1 (lg rho, lg e)
+%-------------------------------------- Two column figure (place early!)
    \begin{figure*}
    \centering
    %%%\includegraphics{empty.eps}
@@ -285,7 +283,7 @@
    (depending upon the time scales) will be different for layers
    in different objects.
 
-%__________________________________________________ One column table
+%--------------------------------------------------- One column table
    \begin{table}
       \caption[]{Opacity sources.}
          \label{KapSou}
@@ -364,7 +362,7 @@
 
 %
 %                                                One column figure
-%----------------------------------------------------------- S_vib
+%----------------------------------------------------------------- 
    \begin{figure}
    \centering
    %%%\includegraphics[width=3cm]{empty.eps}
@@ -374,8 +372,7 @@
               }
          \label{FigVibStab}
    \end{figure}
-%
-%______________________________________________________________
+%-----------------------------------------------------------------
 
 \section{Conclusions}
 
@@ -452,8 +449,7 @@
 \end{thebibliography}
 
 \end{document}
-
-
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Example below of non-structurated natbib references  
 To use the v8.3 macros with this form of composition of bibliography, 
@@ -494,10 +490,7 @@ the option "bibyear" should be added to the command line
    \bibitem[1997]{zheng} Zheng, W., Davidsen, A. F., Tytler, D. \& Kriss, G. A.
       1997, preprint
 \end{thebibliography}
-
-
-
-
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Examples for figures using graphicx
 A guide "Using Imported Graphics in LaTeX2e"  (Keith Reckdahl)
@@ -505,7 +498,7 @@ is available on a lot of LaTeX public servers or ctan mirrors.
 The file is : epslatex.pdf 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%_____________________________________________________________
+%-------------------------------------------------------------
 %                 A figure as large as the width of the column
 %-------------------------------------------------------------
    \begin{figure}
@@ -518,7 +511,7 @@ The file is : epslatex.pdf
          \label{FigVibStab}
    \end{figure}
 %
-%_____________________________________________________________
+%-------------------------------------------------------------
 %                                    One column rotated figure
 %-------------------------------------------------------------
    \begin{figure}
@@ -531,7 +524,7 @@ The file is : epslatex.pdf
          \label{FigVibStab}
    \end{figure}
 %
-%_____________________________________________________________
+%-------------------------------------------------------------
 %                        Figure with caption on the right side 
 %-------------------------------------------------------------
    \begin{figure}
@@ -544,9 +537,7 @@ The file is : epslatex.pdf
          \label{FigVibStab}
    \end{figure}
 %
-%_____________________________________________________________
-%
-%_____________________________________________________________
+%-------------------------------------------------------------
 %                                Figure with a new BoundingBox 
 %-------------------------------------------------------------
    \begin{figure}
@@ -559,9 +550,7 @@ The file is : epslatex.pdf
          \label{FigVibStab}
    \end{figure}
 %
-%_____________________________________________________________
-%
-%_____________________________________________________________
+%-------------------------------------------------------------
 %                                      The "resizebox" command 
 %-------------------------------------------------------------
    \begin{figure}
@@ -574,9 +563,7 @@ The file is : epslatex.pdf
          \label{FigVibStab}
    \end{figure}
 %
-%______________________________________________________________
-%
-%_____________________________________________________________
+%-------------------------------------------------------------
 %                                             Two column Figure 
 %-------------------------------------------------------------
    \begin{figure*}
@@ -589,11 +576,9 @@ The file is : epslatex.pdf
          \label{FigVibStab}
    \end{figure*}
 %
-%______________________________________________________________
-%
-%_____________________________________________________________
+%-------------------------------------------------------------
 %                                             Simple A&A Table
-%_____________________________________________________________
+%-------------------------------------------------------------
 %
 \begin{table}
 \caption{Nonlinear Model Results}             % title of Table
@@ -612,9 +597,9 @@ HJD & $E$ & Method\#2 & Method\#3 \\    % table heading
 \end{tabular}
 \end{table}
 %
-%_____________________________________________________________
+%-------------------------------------------------------------
 %                                             Two column Table 
-%_____________________________________________________________
+%-------------------------------------------------------------
 %
 \begin{table*}
 \caption{Nonlinear Model Results}             
@@ -738,7 +723,7 @@ Mathieu et al.}
 (11) \citet{jha99}.
 }
 \end{table}
-%_____________________________________________________________
+%-------------------------------------------------------------
 %                      A rotated Two column Table in landscape  
 %-------------------------------------------------------------
 \begin{sidewaystable*}
@@ -764,7 +749,7 @@ ISO-L1551 & $F_{6.7}$~[mJy] & $\alpha_{6.7-14.3}$
 \hline
 \end{tabular}
 \end{sidewaystable*}
-%_____________________________________________________________
+%-------------------------------------------------------------
 %                      A rotated One column Table in landscape  
 %-------------------------------------------------------------
 \begin{sidewaystable}
@@ -791,13 +776,12 @@ ISO-L1551 & $F_{6.7}$~[mJy] & $\alpha_{6.7-14.3}$
 \end{tabular}
 \end{sidewaystable}
 %
-%_____________________________________________________________
+%-------------------------------------------------------------
 %                              Table longer than a single page  
 %-------------------------------------------------------------
-% All long tables will be placed automatically at the end, after 
-%                                        \end{thebibliography}
+% All long tables will be placed automatically at the end of the document
 %
-\begin{longtab}
+\longtab{
 \begin{longtable}{lllrrr}
 \caption{\label{kstars} Sample stars with absolute magnitude}\\
 \hline\hline
@@ -820,17 +804,17 @@ Gl 86
 \footnote{Source not included in the HRI catalog. See Sect.~5.4.2 for details.}
          & 5.92 & K0 V & 10.91& S & 0.058230\\
 \end{longtable}
-\end{longtab}
+}
 %
-%_____________________________________________________________
-%                              Table longer than a single page
-%                                             and in landscape 
-%  In the preamble, use:       \usepackage{lscape}
 %-------------------------------------------------------------
-% All long tables will be placed automatically at the end, after
-%                                        \end{thebibliography}
+%                              Table longer than a single page
+%                                            and in landscape, 
+%                    in the preamble, use: \usepackage{lscape}
+%-------------------------------------------------------------
+
+% All long tables will be placed automatically at the end of the document
 %
-\begin{longtab}
+\longtab{
 \begin{landscape}
 \begin{longtable}{lllrrr}
 \caption{\label{kstars} Sample stars with absolute magnitude}\\
@@ -855,21 +839,24 @@ Gl 86
          & 5.92 & K0 V & 10.91& S & 0.058230\\
 \end{longtable}
 \end{landscape}
-\end{longtab}
+}
 %
-% Online Material
-%_____________________________________________________________
-%        Online appendices have to be placed at the end, after
+%-------------------------------------------------------------
+%               Appendices have to be placed at the end, after
 %                                        \end{thebibliography}
 %-------------------------------------------------------------
 \end{thebibliography}
 
-\Online
-
-\begin{appendix} %First online appendix
+\begin{appendix} %First appendix
 \section{Background galaxy number counts and shear noise-levels}
 Because the optical images used in this analysis...
+\begin{figure*}%f1
+\includegraphics[width=10.9cm]{1787f23.eps}
+\caption{Shown in greyscale is a...}
+\label{cl12301}
+\end{figure*}
 
+In this case....
 \begin{figure*}
 \centering
 \includegraphics[width=16.4cm,clip]{1787f24.ps}
@@ -879,60 +866,9 @@ Because the optical images used in this analysis...
 
 Because the optical images...
 
-\section{Title of Second online appendix.....} %Second online appendix
+\section{Title of Second appendix.....} %Second appendix
 These studies, however, have faced...
-
-\end{appendix}
-
-
-\end{document}
-%
-%_____________________________________________________________
-%        Some tables or figures are in the printed version and
-%                      some are only in the electronic version
-%-------------------------------------------------------------
-%
-% Leave all the tables or figures in the text, at their right place 
-% and use the commands \onlfig{} and \onltab{}. These elements
-% will be automatically placed at the end, in the section
-% Online material.
-
-\documentclass{aa}
-...
-\begin{document}
-text of the paper...
-\begin{figure*}%f1
-\includegraphics[width=10.9cm]{1787f01.eps}
-\caption{Shown in greyscale is a...}
-\label{cl12301}}
-\end{figure*}
-...
-from the intrinsic ellipticity distribution.
-% Figure 2 available electronically only
-\onlfig{
-\begin{figure*}%f2
-\includegraphics[width=11.6cm]{1787f02.eps}
-\caption {Shown in greyscale...}
-\label{cl1018}
-\end{figure*}
-}
-
-% Figure 3 available electronically only
-\onlfig{
-\begin{figure*}%f3
-\includegraphics[width=11.2cm]{1787f03.eps}
-\caption{Shown in panels...}
-\label{cl1059}
-\end{figure*}
-}
-
-\begin{figure*}%f4
-\includegraphics[width=10.9cm]{1787f04.eps}
-\caption{Shown in greyscale is...}
-\label{cl1232}}
-\end{figure*}
-
-\begin{table}%t1
+\begin{table}
 \caption{Complexes characterisation.}\label{starbursts}
 \centering
 \begin{tabular}{lccc}
@@ -942,60 +878,28 @@ Complex & $F_{60}$ & 8.6 &  No. of  \\
 \hline
 \end{tabular}
 \end{table}
+
 The second method produces...
+\end{appendix}
+%
+%
+\end{document}
 
-% Figure 5 available electronically only
-\onlfig{
-\begin{figure*}%f5
-\includegraphics[width=11.2cm]{1787f05.eps}
-\caption{Shown in panels...}
-\label{cl1238}}
-\end{figure*}
-}
-
-As can be seen, in general the deeper...
-% Table 2 available electronically only
-\onltab{
-\begin{table*}%t2
-\caption{List of the LMC stellar complexes...}\label{Properties}
-\centering
-\begin{tabular}{lccccccccc}
-\hline  \hline
-Stellar & RA & Dec & ...
-...
-\hline
-\end{tabular}
-\end{table*}
-}
-
-% Table 3 available electronically only
-\onltab{
-\begin{table*}%t3
-\caption{List of the derived...}\label{IrasFluxes}
-\centering
-\begin{tabular}{lcccccccccc}
-\hline \hline
-Stellar & $f12$ & $L12$ &...
-...
-\hline
-\end{tabular}
-\end{table*}
-}
 %
 %-------------------------------------------------------------
-%     For the online material, table longer than a single page
-%                 In the preamble for landscape case, use : 
-%                                          \usepackage{lscape}
+%          For the appendices, table longer than a single page
 %-------------------------------------------------------------
-\documentclass{aa}
-\usepackage[varg]{txfonts}
-\usepackage{graphicx}
-\usepackage{lscape}
 
-\begin{document}
-text of the paper
-% Table will be print automatically at the end, in the section Online material.
-\onllongtab{
+% Table will be print automatically at the end of the document, 
+% after the whole appendices
+
+\begin{appendix} %First appendix
+\section{Background galaxy number counts and shear noise-levels}
+
+% In the appendices do not forget to put the counter of the table 
+% as an option
+
+\longtab[1]{
 \begin{longtable}{lrcrrrrrrrrl}
 \caption{Line data and abundances ...}\\
 \hline
@@ -1016,14 +920,23 @@ red & References \\
 \endlastfoot
 A & CH & 1 &3638 & 0.002 & $-$2.551 &  &  &  & $-$150 & 150 &  Jorgensen et al. (1996) \\                    
 \end{longtable}
-}% End onllongtab
+}% End longtab
+\end{appendix}
 
-% Or for landscape, large table:
+%-------------------------------------------------------------
+%                   For appendices and landscape, large table:
+%                    in the preamble, use: \usepackage{lscape}
+%-------------------------------------------------------------
 
-\onllongtab{
+\begin{appendix} %First appendix
+%
+\longtab[1]{
 \begin{landscape}
 \begin{longtable}{lrcrrrrrrrrl}
 ...
 \end{longtable}
 \end{landscape}
-}% End onllongtab
+}% End longtab
+\end{appendix}
+
+%%%% End of aa.dem

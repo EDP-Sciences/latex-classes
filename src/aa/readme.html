@@ -2,37 +2,9 @@
 </HEAD>
 <BODY BGCOLOR="#FFFFFF">
 <HR>
-<FONT SIZE=+2 FACE="ARIAL"><B>LaTeX2e v8.3 class for Astronomy &amp; Astrophysics</A></B></FONT>
-<BR> (c) EDP Sciences, 2013 <P>
+<FONT SIZE=+2 FACE="ARIAL"><B>LaTeX2e v9 class for Astronomy &amp; Astrophysics</A></B></FONT>
+<BR> (c) EDP Sciences, 2016 <P>
 <HR>
-<P>
-<FONT SIZE=+2><EM>What's New in AA v8.3 (December 2014)</EM></FONT>
-</P>
-<B>Main change in the 8.x versions</B>
-<BR>
-A&A now accepts TeX files designed for LaTeX  as well as PDFLaTeX.
-<BR>
-Depending on your preferred LaTeX engine (LaTeX or pdfLaTeX), figures
-should be sent as encapsulated PostScript files or in any other format
-as PDF, JPG, TIF, BMP, and GIF (compatible with pdfLaTeX).<BR>
-The new macro does not include the classes traditabstract and structabstract anymore. 
-They are replaced by the command \abstract. See new instructions for details.
-<P>
-Changes between 8.2 and 8.3
-<BR>
-The aa class supports now the "e-prints" command with BibTeX.<BR>
-Two new LaTeX commands, \LEm{a note in the margin} and \LEt{note within the text}
-have been added.<BR>
-See the A&A Author's guide on the Web site for more information.
-<P>
-Change between 8.1 and 8.2
-<BR>
-To enable compatibility with 7.x versions, an option has been            
-added. 
-If you don't write structured references (according to
-to the author-year natbib style), use this option:<BR>
-\documentclass[bibyear]{aa} 
-<P>
 The following files are part of the macro package AA
 <UL>
 <P><LI><a href="http://ftp.edpsciences.org/pub/aa/readme.txt">readme.txt</a>: Information (equivalent to this page)
@@ -42,8 +14,6 @@ The following files are part of the macro package AA
 <UL>
 <P><LI>Directory for BIBTeX style
 <P><LI><a href="http://ftp.edpsciences.org/pub/aa/bibtex/aa.bst">aa.bst</a>: Bibliography style file
-<P><LI><a href="http://ftp.edpsciences.org/pub/aa/bibtex/natbib.sty">natbib.sty</a>: This package reimplements
-the LaTeX \cite command
 <P><LI><a href="http://ftp.edpsciences.org/pub/aa/bibtex/natnotes.pdf">natnotes.pdf</a>: Brief reference sheet for Natbib (pdf)
 </UL>
 </UL>
@@ -51,6 +21,27 @@ Remember to transfer dvi and pdf files as binaries!
 <P>
 All files are compressed in a single archive:<BR>
 <a href="http://ftp.edpsciences.org/pub/aa/aa-package.tar.gz">aa-package.tar.gz</a>
+<P>
+<FONT SIZE=+2><EM>Main changes in the  8.x versions</EM></FONT>
+</P>
+A&A accepts TeX files designed for LaTeX  as well as PDFLaTeX.
+<BR>
+Depending on your preferred LaTeX engine (LaTeX or pdfLaTeX), figures
+should be sent as encapsulated PostScript files or in any other format
+as PDF, JPG, TIF, BMP, and GIF (compatible with pdfLaTeX).<BR>
+The new macro does not include the classes traditabstract and structabstract anymore. 
+They are replaced by the command \abstract. See new instructions for details.
+<P>
+The aa class supports now the "e-prints" command with BibTeX.<BR>
+Two new LaTeX commands, \LEm{a note in the margin} and \LEt{note within the text}
+have been added.<BR>
+See the A&A Author's guide on the Web site for more information.
+<P>
+To enable compatibility with 7.x versions, an option has been            
+added. 
+If you don't write structured references (according to
+to the author-year natbib style), use this option:<BR>
+\documentclass[bibyear]{aa} 
 <P>
 <HR>
 <FONT SIZE=+2 FACE="ARIAL"><B>Tips</A></B></FONT>

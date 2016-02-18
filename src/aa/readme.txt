@@ -1,17 +1,29 @@
 %                                                             readme.txt
-% AA vers. 8.3, LaTeX class for Astronomy & Astrophysics
+% AA v9 LaTeX class for Astronomy & Astrophysics
 % read-me file
-%                                                 (c) EDP Sciences, 2013
+%                                                 (c) EDP Sciences, 2016
 %                                            tex-support@edpsciences.org
 %-----------------------------------------------------------------------
 %
-%-----------------------------------------------------------------------
-% What's New in AA v8.3 (December 2014)
-%-----------------------------------------------------------------------
+The following files are part of the macro package AA
 
-Main change in the 8.x versions 
+  readme.txt      This file
+  aa.cls          The document class file
+  aadoc.pdf       User's Guide
+  aa.dem          Example of an article (LaTeX source)
 
-A&A now accepts TeX files designed for LaTeX  as well as PDFLaTeX.
+
+  bibtex/       Directory for BIBTeX style
+   aa.bst       Bibliography style file
+   natnotes.pdf Brief reference sheet for Natbib
+
+All files are compressed in a single archive: aa-package.tar.gz
+
+%---------------------------------------------------------------------
+%                            Main changes in the previous 8.x versions 
+%---------------------------------------------------------------------
+
+A&A accepts TeX files designed for LaTeX  as well as PDFLaTeX.
 Depending on your preferred LaTeX engine (LaTeX or pdfLaTeX), figures 
 should be sent as encapsulated PostScript files or in any other format 
 as PDF, JPG, TIF, BMP, and GIF (compatible with pdfLaTeX).
@@ -19,35 +31,16 @@ The new macro does not include the classes traditabstract and structabstract
 anymore. They are replaced by the command \abstract. 
 See new instructions for details.
 
-Changes between 8.2 and 8.3 
 The aa class supports now the "e-prints" command with BibTeX. 
 Two new LaTeX commands, \LEm{a note in the margin} and \LEt{note within the text}
 have been added.
 See the A&A Author's guide on the Web site for more information.
   
-Changes  between 8.1 and 8.2 
 To enable compatibility with 7.x versions, an option has been 
 added.
 If you don't write structured references (according to
 the author-year natbib style), use this option:
 \documentclass[bibyear]{aa} 
-
-The following files are part of the macro package AA 
-
-  readme.txt      This file
-  aa.cls          The document class file
-  aadoc.pdf       User's Guide 
-  aa.dem          Example of an article (LaTeX source)
-
-
-  bibtex/       Directory for BIBTeX style
-   aa.bst       Bibliography style file 
-   natbib.sty   This package reimplements the LaTeX \cite command 
-   natnotes.pdf Brief reference sheet for Natbib        
-
-Remember to transfer dvi and pdf files as binaries!
-
-All files are compressed in a single archive: aa-package.tar.gz
 
 %-----------------------------------------------------------------------
 % Tips 

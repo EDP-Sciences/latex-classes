@@ -7,11 +7,8 @@
 %% aa.dtx  (with options: `aa')
 %% 
 %% aa.dtx
-%% Copyright EDP Sciences, J.-C. Charpentier (2010), E-press (2011), TxT-aRt (2012)
-%%
+%% Copyright EDP Sciences, E-press (2016), J.-C. Charpentier (2010), all rights reserved.
 %% Class `aa' to use with LaTeX 2e
-%% Copyright (C) 2012 EDP Sciences, Jean-C\^ome Charpentier, all
-%% rights reserved.
 %% \CharacterTable
 %%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
 %%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
@@ -28,9 +25,9 @@
 %%   Grave accent  \`     Left brace    \{     Vertical bar  \|
 %%   Right brace   \}     Tilde         \~}
 %%
-\def\filedate{2014/12/1}
+\def\filedate{2016/01/01}
 \let\aafiledate\filedate
-\def\fileversion{8.3}
+\def\fileversion{9.0}
 \let\aafileversion\fileversion
 \NeedsTeXFormat{LaTeX2e}[1995/06/01]
 \ProvidesClass{aa}
@@ -85,10 +82,12 @@
 \newif\if@wideboxfn
 \@wideboxfnfalse
 \DeclareOption{wideboxfn}{\@wideboxfntrue}
+%
 \newif\ifaa@longfn
 \DeclareOption{longfn}{\aa@longfntrue}
 \newif\ifaa@longauth
 \DeclareOption{longauth}{\aa@longauthtrue}
+\let\if@myobjects\iffalse
 \DeclareOption{ascii}{%
   \def\aa@inputenc{\RequirePackage[ascii]{inputenc}}%
 }
@@ -179,7 +178,7 @@
   \aa@twocolumnfalse
   \setlength{\aa@fullwidth}{0.75\aa@fullwidth}
   \renewcommand*\aa@leftmarginpaper{15mm}
-  \if!\csname longtab\endcsname!\AtEndDocument{\listofobjects}\fi
+  \if!\csname appendix\endcsname!\AtEndDocument{\listofobjects}\fi
 \fi
 \ifx\pdfoutput\undefined
   \newcount\pdfoutput
@@ -231,7 +230,9 @@
 \aa@biblio
 \RequirePackage{xspace}
 \RequirePackage[english]{babel}
-\renewenvironment{appendix}{\par
+\def\aatolm#1{\gdef\@aatolm{#1}}
+\def\@aatolm{}
+\renewenvironment{appendix}{\par\clearpage\aatolm{1}
 \def\@hangfrom##1{\setbox\@tempboxa\hbox{{##1}}%
       \hangindent \parindent\noindent\box\@tempboxa}
 \def\sectcounterend{:}
@@ -263,56 +264,6 @@
   \renewcommand\thetable{\@arabic\c@table}%
 }
 \RequirePackage[figuresright]{rotating}
-\RequirePackage{answers}
-\renewcommand{\Newassociation}[3]{%
-   \newsolution{#2}%
-   \expandafter\ifx\csname #3opentrue\endcsname\relax
-      \expandafter\newif\csname if#3open\endcsname
-   \fi
-   \newenvironment{#1}{%
-      \Ifanswerfiles{%
-         \let\Tmp\relax
-         \Iffileundefined{#3}{}{%
-            \Ifopen{#3}{%
-               \immediate\write\@nameuse{#3@file}%
-                  {\string\begin{#2}\@nameuse{#2params}}%
-            \def\Tmp{\Filesave{#3}}%
-            }{}%
-         }%
-      }{%
-         \edef\Tmp{\noexpand\begin{#2}\@nameuse{#2params}}%
-      }%
-      \csname pre#1\endcsname
-      \Tmp
-   }%
-   {%
-      \Ifanswerfiles{%
-         \Iffileundefined{#3}{}{%
-            \Ifopen{#3}{%
-               \endFilesave%
-               \immediate\write\@nameuse{#3@file}%
-                  {\string\end{#2}}%
-               \csname post#1\endcsname
-            }{}%
-         }%
-      }{%
-         \end{#2}%
-      }%
-   \stepcounter{table}}%
-}
-\renewcommand{\newsolution}[1]{%
-   \@ifundefined{#1}{%
-      \global\@namedef{#1params}{{\thetable}}%
-      \newenvironment{#1}[1]%
-      {%
-         \csname pre#1\endcsname
-         \trivlist
-         \item[\hskip\itemsep{\@nameuse{#1label}{##1}}]}%
-      {\csname post#1\endcsname\endtrivlist}%
-      \global\@namedef{#1label}##1{\solutionstyle{##1}}%
-   }{\ClassWarning{aa}{WARNING: environment #1 already in use}}%
-}
-\renewcommand{\solutionextension}{llt}
 \newcount\aa@cnta
 \newcount\aa@cntb
 \newcount\aa@nbwords
@@ -351,7 +302,7 @@
 \newlength{\aa@hoffsetlettername}
 \setlength{\aa@hoffsetlettername}{2mm}
 \newlength{\aa@hoffsetgray}
-\setlength{\aa@hoffsetgray}{1mm}
+\setlength{\aa@hoffsetgray}{3mm}
 \newlength{\aa@aftercontentsnameskip}
 \setlength{\aa@aftercontentsnameskip}{12\p@}
 \newlength{\aa@aftercontentsAutnameskip}
@@ -420,8 +371,6 @@
 \setlength{\VSpaceBeforeTabBib}{2ex}
 \newlength{\VSpaceBeforeTabFoot}
 \setlength{\VSpaceBeforeTabFoot}{2ex}
-\newlength{\aa@textonlineboxsep}
-\setlength{\aa@textonlineboxsep}{1.5mm}
 \newlength{\aftertext}
 \setlength{\aftertext}{5pt}
 \newlength{\aa@entryboxwidth}
@@ -510,28 +459,6 @@
 \newcommand*\aa@floatcounterend{.~}
 \newcommand*\aa@tablebibname{References}
 \newcommand*\aa@tablefootname{Notes}
-\newcommand{\textonlinebox}{%
-  \oneonlinepage
-    {Page \pageref{OLMFpage} is}
-    {Pages \pageref{OLMFpage} to \pageref{LastPage} are}
-  available in the electronic edition of the journal at
-  \url{http://www.aanda.org}%
-}
-\newcommand\oneonlinepage[2]{%
-  \def\reserved@a{#1}%
-  \def\reserved@b{#2}%
-  \let\reserved@c\reserved@a
-  \ifx\r@LastPage\undefined\else
-  \ifx\r@OLMFpage\undefined\else
-    \expandafter\aa@extractpage\expandafter\@tempcnta\r@LastPage
-    \expandafter\aa@extractpage\expandafter\@tempcntb\r@OLMFpage
-    \ifnum\@tempcnta>\@tempcntb
-      \let\reserved@c\reserved@b
-    \fi
-  \fi\fi
-  \reserved@c
-}
-\newcommand*\aa@extractpage[6]{#1 #3\relax}
 \renewcommand\normalsize{%
   \@setfontsize\normalsize\@xpt{11}%
   \abovedisplayskip 8.55\p@ \@plus4\p@ \@minus5\p@
@@ -613,7 +540,6 @@
 \newcommand*\aa@descriptionlabelfont{}
 \newcommand\aa@longtablecaptionfont{\small}
 \newcommand\aa@longtableheadcaptionfont{\small\bfseries}
-\newcommand*\aa@textonlineboxfont{\sffamily}
 \newcommand*\aa@emailfont{\ttfamily}
 \newcommand*\aa@entryifont{\itshape}
 \newcommand*\aa@entryiifont{\bfseries}
@@ -683,13 +609,14 @@
 \newcommand*\aa@roheadletter{%
   \setlength{\aa@dima}
             {1in + \topmargin + \headheight - \dp\strutbox +
-              \aa@bleedmargin}%
+              2\aa@bleedmargin}%
   \setlength{\aa@dimb}
             {\paperwidth - (1in + \oddsidemargin + \textwidth) +
               \aa@bleedmargin - \aa@hoffsetgray}%
   \setbox0=\hbox{\aa@letternamefont \lettername}%
   \setlength{\aa@dimc}
             {\paperheight - \aa@dima - \wd0 + 2\aa@bleedmargin}%
+  \addtolength{\aa@voffsetlettername}{0.5cm}
   \leavevmode
   \hbox to0pt{%
     \hspace*{\aa@hoffsetgray}%
@@ -713,12 +640,13 @@
 \newcommand*\aa@leheadletter{%
   \setlength{\aa@dima}
             {1in + \topmargin + \headheight - \dp\strutbox +
-              \aa@bleedmargin}%
+              2\aa@bleedmargin}%
   \setlength{\aa@dimb}
             {1in + \oddsidemargin + \aa@bleedmargin - \aa@hoffsetgray}%
   \setbox0=\hbox{\aa@letternamefont \lettername}%
   \setlength{\aa@dimc}
             {\paperheight-\aa@dima-\wd0+2\aa@bleedmargin}%
+  \addtolength{\aa@voffsetlettername}{0.5cm}
   \leavevmode
   \hspace*{-2\fboxsep}%
   \hbox to0pt{%
@@ -1120,12 +1048,12 @@
     \addvspace{\aa@afterauthorskip}
   \endgroup
   \begingroup
-    \leftskip \aa@headingleftmargin
-    \rightskip \aa@headingrightmargin
-    \ifaa@longauth
+    \ifaa@longauth\addvspace{-10pt}
       {\noindent\aa@longauthfont%
        \aa@longauthopen\aa@longauthname\aa@longauthclose\par}
     \else
+    \leftskip \aa@headingleftmargin
+    \rightskip \aa@headingrightmargin
       \aainstitutename
     \fi
     \vspace{\aa@afterinstituteskip}
@@ -1363,91 +1291,53 @@
 \renewcommand\@makefntext[1]{%
     \noindent
     \hb@xt@\bibindent{\hss\@makefnmark\enspace}#1}
-\newcommand\listofobjects{%
+\newcommand\listofobjects{\if@myobjects%
   \section*{\listobjectname}
-  \@starttoc{obj}%
+  \@starttoc{obj}\fi%
 }
 \newcommand*\l@obj[2]{\noindent`#1' on page #2\par}
 \DeclareRobustCommand{\object}[1]{%
-   #1%
+   #1\global\let\if@myobjects\iftrue%
    \addcontentsline{obj}{obj}{#1}%
 }
-\newcommand\Online{%
-  \ifaa@online\else\aa@onlinetrue
-  \def\ps@Onlheadings{%
-    \let\@oddfoot\@empty\let\@evenfoot\@empty
-    \def\@evenhead{\hfil A\&A--\jobname, {\it Online Material p~\thepage}\hfil}%
-    \def\@oddhead{\hfil A\&A--\jobname, {\it Online Material p~\thepage}\hfil}%
-    \let\@mkboth\@gobbletwo
-    \let\sectionmark\@gobble
-    \let\subsectionmark\@gobble
-  }
-  \clearpage
-  \pagestyle{Onlheadings}
-  \fi
+\newcommand\longtab[2][]{%
+\if!\@aatolm!
+  \aalongfloat{table}{#2}%
+\else
+  \aalongfloat[#1]{section}{#2}%
+\fi
 }
-\newcommand*\aa@displaytextonlinebox[1]{%
-  \begingroup
-    \fboxsep=\aa@textonlineboxsep
-    \fbox{%
-      \parbox{\linewidth-\aa@textonlineboxsep}{%
-        \centering
-        \aa@textonlineboxfont
-        #1%
-      }%
-    }%
-  \endgroup
-}
-\newcommand\onlfig{%
-  \onlfloat{figure}%
-}
-\newcommand\onltab{%
-  \onlfloat{table}%
-}
-\newcommand\onllongtab{%
-  \onllongfloat{table}%
-}
-\newcommand\onlfloat[2]{%
+\newcommand\aalongfloat[3][]{%
   \AtEndDocument{%
-    \Online
-    \aa@savecounter \csname c@#1\endcsname \relax
-    \csname c@#1\endcsname
+    \aa@savecounter \csname c@#2\endcsname \relax
+    \csname c@#2\endcsname
   }%
-  \edef\aa@nombre{\number\csname c@#1\endcsname}%
-  \expandafter\AtEndDocument\expandafter{%
-    \aa@nombre\relax
-    #2%
-    \csname c@#1\endcsname \aa@savecounter \relax
-  }%
-  \stepcounter{#1}%
-}
-\newcommand\onllongfloat[2]{%
-  \AtEndDocument{%
-    \Online
-    \aa@savecounter \csname c@#1\endcsname \relax
-    \csname c@#1\endcsname
-  }%
-  \edef\aa@nombre{\number\csname c@#1\endcsname}%
+  \edef\aa@nombre{\number\csname c@#2\endcsname}%
+\if!\@aatolm!
   \expandafter\AtEndDocument\expandafter{%
     \aa@nombre\relax
     \setlength{\LTcapwidth}{\textwidth}
     \onecolumn
-    #2%
+    #3%
     \twocolumn
-    \csname c@#1\endcsname \aa@savecounter \relax
+    \csname c@#2\endcsname \aa@savecounter \relax
   }%
-  \stepcounter{#1}%
+  \stepcounter{#2}%
+\else
+  \expandafter\AtEndDocument\expandafter{%
+    \aa@nombre\relax
+    \setlength{\LTcapwidth}{\textwidth}
+    \onecolumn
+\setcounter{table}{#1}\addtocounter{table}{-1}
+\renewcommand\thesection{\Alph{section}}%
+\renewcommand\thetable{\thesection.\arabic{table}}
+    #3%
+    \twocolumn
+    \csname c@#2\endcsname \aa@savecounter \relax
+  }%
+  \setcounter{table}{#1}
+\fi
 }
-\Newassociation{longtab}{Longtab}{\jobname}
-\newcommand{\Debutlongtab}{\Opensolutionfile{\jobname}}
-\newcommand{\Finlongtab}{\Closesolutionfile{\jobname} \Ecrirelongtab }
-\newcommand{\Ecrirelongtab}{  \Readsolutionfile{\jobname}}
-\renewenvironment{Longtab}[1]{\setcounter{table}{#1}%
-  \setlength{\LTcapwidth}{\textwidth}%
-  \onecolumn}{%
-  \twocolumn%
-}
-\g@addto@macro{\maketitle}{\Debutlongtab}
 \renewcommand*\enddocument{%
    \let\AtEndDocument\@firstofone
    \@enddocumenthook
@@ -1843,8 +1733,7 @@
 }{%
   \endlist\par\endgroup%
   \ifaa@longauth\kern6pt\hrule\kern6pt\aainstitutename\aa@longauthfalse\fi%
-  \ifaa@referee\if!\csname longtab\endcsname!\relax\else\listofobjects\fi\fi
-  \Finlongtab%
+  \ifaa@referee\if!\csname appendix\endcsname!\relax\else\listofobjects\fi\fi
   \def\@noitemerr{\ClassWarning{aa}{Empty `thebibliography' environment}}%
 }
 \def \@floatboxreset {%
@@ -2200,3 +2089,4 @@
 \endinput
 %%
 %% End of file `aa.cls'.
+
