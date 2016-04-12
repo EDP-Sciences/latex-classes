@@ -187,8 +187,8 @@
 %%%%%%%%%%%%%%%%%
 %
 % symbols of \thanks
-\def\@fnsymbol#1{\ensuremath{\ifcase#1\or\star\or{\star\star}\or{\star\star\star}%
-   \or \dagger\or \ddagger\or
+\def\@fnsymbol#1{\ensuremath{\ifcase#1\or\star\or{\star}{\star}\or{\star}{\star}{\star}%
+   \or {\star}{\star}{\star}{\star}\or \dagger\or \ddagger\or
    \mathchar "278\or \mathchar "27B\or \|\or **\or \dagger\dagger
    \or \ddagger\ddagger \else\@ctrerr\fi}}
 \newcommand\fnsep{\unskip$^,$}
@@ -289,6 +289,7 @@
 \newcommand\@TitleFont{\normalfont\fontsize{14pt}{16pt}\sffamily\bfseries}
 \newcommand\@SubtitleFont{\normalfont\fontsize{12pt}{14pt}\sffamily\bfseries}
 \newcommand\@AuthorFont{\normalfont\normalsize\sffamily}
+\newcommand\@FirstNameAuthorFont{\itshape}
 \newcommand\@LastNameAuthorFont{\bfseries}
 \newcommand\@InstituteFont{\normalfont\small\sffamily\slshape}
 \newcommand\@ThanksFont{\normalfont\fontsize{8pt}{9.6pt}\selectfont}
@@ -346,7 +347,8 @@
 %%%%%%%%%%%%%%%%%%%
 %
 \newcommand*\idline[1]{\renewcommand*\woc@idline{\woc@name~#1}}
-\newcommand*\woc@idline{\woc@name~will be set by the publisher}
+%\newcommand*\woc@idline{\woc@name~will be set by the publisher}
+\newcommand*\woc@idline{}
 %
 \newcommand*\doi[1]{%
   \renewcommand*\woc@doi{DOI: #1}%
@@ -363,9 +365,12 @@
   \fancyhead[L]{%
     \minipage[t][\baselineskip]{\linewidth}
       \@HeadFont
+\ifx\woc@idline\empty
+\else
       \woc@idline\\
       \woc@doi\\
       \CopyrightTitlename
+\fi
     \endminipage
   }%
 }
@@ -375,11 +380,17 @@
   \renewcommand{\footrulewidth}{0pt}%
   \fancyhead[CE]{%
     \@HeadFont
+\ifx\woc@idline\empty
+\else
     \woc@name
+\fi
   }%
   \fancyhead[CO]{%
     \@HeadFont
+\ifx\woc@idline\empty
+\else
     \@woctitle
+\fi
   }%
 }
 \pagestyle{otherpage}
@@ -445,8 +456,8 @@ e-mail: \protect\@email{#1}%
 %
 % Parse authors, institutes, thanks, and email 
 %
-\def\firstname#1{{#1\protect}}
-\def\lastname#1{{\@LastNameAuthorFont#1}}
+\def\firstname#1{{\@FirstNameAuthorFont#1\protect}}
+\def\lastname#1{{#1}}
 \def\@parseauthor{%
   \count@ \z@
   \expandafter\@countand\@author\and\@nil\and
@@ -606,9 +617,10 @@ e-mail: \protect\@email{#1}%
       \fi
       %author
       % process \and display author(s) and build header
-      \switch@fnmark
-      \protected@xdef\@thanks{\@thanks\protect\switch@fnmark}
-      \setcounter{footnote}{0}
+      %\switch@fnmark
+      %\protected@xdef\@thanks{\@thanks\protect\switch@fnmark}
+      \protected@xdef\@thanks{\@thanks}
+      %\setcounter{footnote}{0}
       \@parseauthor
       % display institute(s)
       \ifx\@institute\empty
@@ -689,8 +701,8 @@ e-mail: \protect\@email{#1}%
 %%%%%%%%%%%%%%%%%%%%%%
 %
 \newenvironment{acknowledgement}
-{\section*{\acknowledgementname}%
-\@TextAcknowledgementFont}{}
+{%\section*{\acknowledgementname}%
+\noindent\ignorespaces\@TextAcknowledgementFont}{}
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% modified standard description environment %%%
