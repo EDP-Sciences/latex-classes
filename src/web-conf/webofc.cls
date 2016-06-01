@@ -16,15 +16,14 @@
 %%   Right bracket \]     Circumflex    \^     Underscore    \_
 %%   Grave accent  \`     Left brace    \{     Vertical bar  \|
 %%   Right brace   \}     Tilde         \~}
-\def\filedate{2011/03/10}
-\def\fileversion{1.2}
+\def\filedate{2016/04/05}
+\def\fileversion{2.0}
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
 \ProvidesClass{webofc}
               [\filedate\space v\fileversion\space
               ^^JLaTeX Class for the Web of Conference Journal
               (EDP Sciences)]
 %
-% 1.0 2011/12/01 Première version
 \LoadClass[fleqn]{article}
 %
 %%%%%%%%%%%%%%%%%%%%
@@ -122,9 +121,6 @@
     \bibpunct{[}{]}{,}{n}{}{}%
     \def\@biblabel##1{[##1]}%
     \bibliographystyle{woc}%
-    % Pour que cela fonctionne avec certaines versions de natbib, il
-    % ne faut pas supposer que \bibfont préexiste
-%    \renewcommand\bibfont{\@BibliographyFont}%
     \def\bibfont{\@BibliographyFont}%
     \setlength{\bibsep}{1pt}%
   }
@@ -133,9 +129,6 @@
   \def\woc@biblio{%
     \bibpunct{(}{)}{;}{a}{}{,}%
     \bibliographystyle{woc}%
-    % Pour que cela fonctionne avec certaines versions de natbib, il
-    % ne faut pas supposer que \bibfont préexiste
-%    \renewcommand\bibfont{\@BibliographyFont}%
     \def\bibfont{\@BibliographyFont}%
     \setlength{\bibsep}{1pt}%
   }%
@@ -464,19 +457,13 @@ e-mail: \protect\@email{#1}%
   \gdef\@headerauthor{}%
   \def\@typeauthor{0}%
   \ifnum\count@=1\relax
-    % no \and to process
-    % one author in header
     \def\@typeauthor{1}%
   \else\ifnum\count@=2\relax
-    % juste one \and
     \let\@andlastauthor\andtwoname
-    % two author in header
     \def\@typeauthor{2}%
-  \else % > 2
-    % real list
+  \else% 
     \let\@andauthor\andname
     \let\@andlastauthor\andlastname
-    % one author et al. in header
     \def\@typeauthor{3}%
   \fi\fi
   \@AuthorFont
@@ -493,29 +480,21 @@ e-mail: \protect\@email{#1}%
   \def\@rg{#1}%
   \advance\count@ \m@ne
   \ifnum\count@>-1\relax
-    % for header
     \ifnum\@typeauthor>0
       \@extractauthor
       \gdef\@headerauthor{\@currentheaderauthor}%
       \ifcase\@typeauthor
-        % 0 impossible
         \or
-        % 1 -> nothing to do
-          % no more author
           \def\@typeauthor{0}%
         \or
-        % 2 -> and
           \protected@xdef\@headerauthor{%
             \@headerauthor\space and
           }
-          % add the next author
           \def\@typeauthor{-1}%
         \or
-        % 3 -> et al.
           \protected@xdef\@headerauthor{%
             \@headerauthor\space et al.%
           }
-          % no more author
           \def\@typeauthor{0}%
       \fi
     \else\ifnum\@typeauthor<0
@@ -524,7 +503,6 @@ e-mail: \protect\@email{#1}%
         \@headerauthor \@currentheaderauthor
       }
     \fi\fi
-    % for first page
     \ifnum\count@=0\relax
        #1
     \else\ifnum\count@=1\relax
@@ -536,9 +514,6 @@ e-mail: \protect\@email{#1}%
   \fi
 }
 \def\@extractauthor{%
-  % examine \@rg = <first name> <name>
-  % exctract first letter of <first name>
-  % and add <name>. Result in \@currentheaderauthor
   \def\@currentheaderauthor{}%
   \expandafter\@@extractauthor\@rg\inst\thanks\@nil
 }
@@ -580,8 +555,6 @@ e-mail: \protect\@email{#1}%
 }
 {\endlist\vspace*{\@VSpaceAfterAbstract}}
 %
-% real command to typeset introduction
-%
 \renewcommand*\maketitle{%
   \thispagestyle{firstpage}
   \ifwoc@twocolumn
@@ -616,13 +589,8 @@ e-mail: \protect\@email{#1}%
         \vspace*{\@VSpaceAfterTitle}
       \fi
       %author
-      % process \and display author(s) and build header
-      %\switch@fnmark
-      %\protected@xdef\@thanks{\@thanks\protect\switch@fnmark}
       \protected@xdef\@thanks{\@thanks}
-      %\setcounter{footnote}{0}
       \@parseauthor
-      % display institute(s)
       \ifx\@institute\empty
       \else
         \par\vspace*{\@VSpaceBeforeInstitute}
@@ -768,7 +736,6 @@ e-mail: \protect\@email{#1}%
 \renewcommand\@makecaption[2]{%
   \par\addvspace\abovecaptionskip
   \ifx\@captype\string@table
-    % Table: centering caption
     \begingroup
       \centering
       \@CaptionFont{%
@@ -778,7 +745,6 @@ e-mail: \protect\@email{#1}%
       \par
     \endgroup
   \else
-    % Figure (and others?): justified
     \begingroup
       \@CaptionFont{%
         \@CaptionTitleFont #1%
@@ -840,3 +806,5 @@ e-mail: \protect\@email{#1}%
 \endinput
 %%
 %% End of file `webofc.cls'
+
+
