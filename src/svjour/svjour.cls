@@ -1,4 +1,4 @@
-% SVJour DOCUMENT CLASS -- version 1.0 for LaTeX2e
+% SVJour DOCUMENT CLASS -- version 1.11 for LaTeX2e
 %
 % LaTeX document class for Springer journals
 %
@@ -20,8 +20,8 @@
 %%   Grave accent  \`     Left brace    \{     Vertical bar  \|
 %%   Right brace   \}     Tilde         \~}
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
-\ProvidesClass{svjour}[1997/07/01
-^^JLaTeX document class for Springer journals - version 1.0]
+\ProvidesClass{svjour}[2003/04/15
+^^JLaTeX document class for Springer journals - version 1.11]
 \newcommand\@ptsize{}
 \newif\if@restonecol
 \newif\if@titlepage
@@ -60,6 +60,9 @@
 %
 \let\if@runhead\iffalse
 \DeclareOption{runningheads}{\let\if@runhead\iftrue}
+\let\if@smartrunh\iffalse
+\DeclareOption{smartrunhead}{\let\if@smartrunh\iftrue}
+\DeclareOption{nosmartrunhead}{\let\if@smartrunh\iffalse}
 \let\if@envcntreset\iffalse
 \DeclareOption{envcountreset}{\let\if@envcntreset\iftrue}
 \let\if@envcntsame\iffalse
@@ -73,6 +76,11 @@
 \DeclareOption{instindent}{\let\if@instindent\iftrue}
 \let\if@smartand\iffalse
 \DeclareOption{smartand}{\let\if@smartand\iftrue}
+\let\if@spthms\iftrue
+\DeclareOption{nospthms}{\let\if@spthms\iffalse}
+\let\switch@texts\relax
+\DeclareOption{deutsch}{\def\switch@texts{\ds@deutsch}}
+\DeclareOption{francais}{\def\switch@texts{\ds@francais}}
 %
 \let\journalopt\@empty
 \DeclareOption*{\InputIfFileExists{sv\CurrentOption.clo}{%
@@ -85,6 +93,8 @@
 \ClassError{Springer-SVJour}{No valid journal specified in option list}{}
 \expandafter\stop
 \fi
+%
+\if@smartrunh\AtEndDocument{\islastpageeven\getlastpagenumber}\fi
 %
 \DeclareMathSymbol{\Gamma}{\mathalpha}{letters}{"00}
 \DeclareMathSymbol{\Delta}{\mathalpha}{letters}{"01}
@@ -244,7 +254,7 @@
 \def\lastandname{, and}
 \def\mailname{{\itshape Correspondence to\/}:}
 \def\email#1{{e-mail: \tt#1}}
-\def\keywords#1{\par\addvspace\baselineskip\noindent\keywordname\
+\def\keywords#1{\par\addvspace\baselineskip\noindent\keywordname\enspace
 \ignorespaces#1}
 %
 \newcounter{inst}
@@ -256,6 +266,29 @@
 \newbox\titrun
 \newtoks\titlerunning
 \def\authorfont{\bfseries}
+
+\def\combirunning#1{\gdef\@combi{#1}}
+\def\@combi{}
+\newbox\combirun
+%
+\def\ps@last{\def\@evenhead{\small\rlap{\thepage}\hfil
+\lastevenhead}}
+\newcounter{lastpage}
+\def\islastpageeven{\@ifundefined{lastpagenumber}
+{\setcounter{lastpage}{0}}{\setcounter{lastpage}{\lastpagenumber}}
+\ifnum\value{lastpage}>0
+   \ifodd\value{lastpage}%
+   \else
+      \if@smartrunh
+         \thispagestyle{last}%
+      \fi
+   \fi
+\fi}
+\def\getlastpagenumber{\clearpage
+\addtocounter{page}{-1}%
+   \immediate\write\@auxout{\string\gdef\string\lastpagenumber{\thepage}}%
+   \immediate\write\@auxout{\string\newlabel{LastPage}{{}{\thepage}}}%
+   \addtocounter{page}{1}}
 
 \def\journalname#1{\gdef\@journalname{#1}}
 
@@ -274,7 +307,7 @@
  \def\and{\par\stepcounter{inst}%
  \if@instindent\hangindent\instindent\fi
  \noindent
- \hbox to\instindent{\hss$^{\theinst}$\enspace}\ignorespaces}%
+ \hbox to\instindent{\hss\smash{$^{\theinst}$}\enspace}\ignorespaces}%
  \setbox0=\vbox{\def\thanks##1{}\@institute}
  \ifnum\value{inst}>9\relax\setbox0=\hbox{$^{88}$\enspace}%
                  \else\setbox0=\hbox{$^{8}$\enspace}\fi
@@ -284,7 +317,7 @@
    \setcounter{inst}{1}%
    \if@instindent\hangindent\instindent\fi
    \noindent
-   \hbox to\instindent{\hss$^{\theinst}$\enspace}\ignorespaces
+   \hbox to\instindent{\hss\smash{$^{\theinst}$}\enspace}\ignorespaces
  \fi
  \small
  \ignorespaces
@@ -410,6 +443,29 @@ the editor}
 %
  \if@runhead
     \ProcessRunnHead
+    \if@smartrunh
+       \instindent=\textwidth
+       \advance\instindent by-\headlineindent
+       \if!\@combi!%
+          \global\setbox\combirun=\hbox{\small\rmfamily\unboldmath\ignorespaces
+                                        \@author\unskip: \@title\unskip}%
+          \def\@tempa{Automatically generated running head}%
+       \else
+          \global\setbox\combirun=\hbox{\small\rmfamily\unboldmath\ignorespaces
+                                        \@combi\unskip}%
+          \def\@tempa{With \string\combirunning\space supplied running head}%
+       \fi
+       \ifdim\wd\combirun>\instindent
+          \typeout{^^JSVJour Warning: \@tempa}%
+          \typeout{for a possible last even numbered page is too long.}%
+          \typeout{Please supply a shorter form with \string\combirunning
+                   \space prior to \string\maketitle.}%
+          \global\setbox\combirun=\hbox{\small\rmfamily
+          Title Suppressed Due to Excessive Length --
+          supply \ttfamily\char92combirunning}%
+       \fi
+       \xdef\lastevenhead{\copy\combirun}%
+    \fi
  \fi
 %
  \endgroup
@@ -488,12 +544,17 @@ to\hsize{\vrule\kern3pt\vbox{\kern3pt
 }
 %
 \if@mathematic
-   \def\vec#1{\ensuremath{\mathbf{#1}}}
+   \def\vec#1{\ensuremath{\mathchoice
+                     {\mbox{\boldmath$\displaystyle\mathbf{#1}$}}
+                     {\mbox{\boldmath$\textstyle\mathbf{#1}$}}
+                     {\mbox{\boldmath$\scriptstyle\mathbf{#1}$}}
+                     {\mbox{\boldmath$\scriptscriptstyle\mathbf{#1}$}}}}
 \else
-   \def\vec#1{\ensuremath{\mathchoice{\mbox{\boldmath$\displaystyle#1$}}
-                              {\mbox{\boldmath$\textstyle#1$}}
-                              {\mbox{\boldmath$\scriptstyle#1$}}
-                              {\mbox{\boldmath$\scriptscriptstyle#1$}}}}
+   \def\vec#1{\ensuremath{\mathchoice
+                     {\mbox{\boldmath$\displaystyle#1$}}
+                     {\mbox{\boldmath$\textstyle#1$}}
+                     {\mbox{\boldmath$\scriptstyle#1$}}
+                     {\mbox{\boldmath$\scriptscriptstyle#1$}}}}
 \fi
 %
 \def\tens#1{\ensuremath{\mathsf{#1}}}
@@ -535,7 +596,7 @@ to\hsize{\vrule\kern3pt\vbox{\kern3pt
     \csname #1mark\endcsname{#7}%
     \addcontentsline{toc}{#1}{%
       \ifnum #2>\c@secnumdepth \else
-        \protect\numberline{\csname the#1\endcsname}%
+        \protect\numberline{\csname the#1\endcsname\sectcounterend}%
       \fi
       #7}%
   \else
@@ -594,6 +655,7 @@ to\hsize{\vrule\kern3pt\vbox{\kern3pt
 \newcommand\labelitemiii{$\m@th\bullet$}
 \newcommand\labelitemiv{$\m@th\cdot$}
 
+\if@spthms
 % definition of the "\spnewtheorem" command.
 %
 % Usage:
@@ -614,10 +676,11 @@ to\hsize{\vrule\kern3pt\vbox{\kern3pt
 
 \def\@thmcountersep{}
 \def\@thmcounterend{}
+\newdimen\spthmsep \spthmsep=3pt
 
 \def\spnewtheorem{\@ifstar{\@sthm}{\@Sthm}}
 
-% definition of \newtheorem with number
+% definition of \spnewtheorem with number
 
 \def\@spnthm#1#2{%
   \@ifnextchar[{\@spxnthm{#1}{#2}}{\@spynthm{#1}{#2}}}
@@ -647,7 +710,7 @@ to\hsize{\vrule\kern3pt\vbox{\kern3pt
   \global\@namedef{end#1}{\@endtheorem}}}}
 
 \def\@spthm#1#2#3#4{\topsep 7\p@ \@plus2\p@ \@minus4\p@
-\refstepcounter{#1}%
+\labelsep=\spthmsep\refstepcounter{#1}%
 \@ifnextchar[{\@spythm{#1}{#2}{#3}{#4}}{\@spxthm{#1}{#2}{#3}{#4}}}
 
 \def\@spxthm#1#2#3#4{\@spbegintheorem{#2}{\csname the#1\endcsname}{#3}{#4}%
@@ -656,14 +719,18 @@ to\hsize{\vrule\kern3pt\vbox{\kern3pt
 \def\@spythm#1#2#3#4[#5]{\@spopargbegintheorem{#2}{\csname
        the#1\endcsname}{#5}{#3}{#4}\ignorespaces}
 
-\def\@spbegintheorem#1#2#3#4{\trivlist
-                 \item[\hskip\labelsep{#3#1\ #2\@thmcounterend}]#4}
+\def\normalthmheadings{\def\@spbegintheorem##1##2##3##4{\trivlist
+                 \item[\hskip\labelsep{##3##1\ ##2\@thmcounterend}]##4}
+\def\@spopargbegintheorem##1##2##3##4##5{\trivlist
+      \item[\hskip\labelsep{##4##1\ ##2}]{##4(##3)\@thmcounterend\ }##5}}
+\normalthmheadings
 
-\def\@spopargbegintheorem#1#2#3#4#5{\trivlist
-%     \item[\hskip\labelsep{#4#1\ #2\ (#3)\@thmcounterend}]#5}
-      \item[\hskip\labelsep{#4#1\ #2}]{#4(#3)\@thmcounterend\ }#5}
+\def\reversethmheadings{\def\@spbegintheorem##1##2##3##4{\trivlist
+                 \item[\hskip\labelsep{##3##2\ ##1\@thmcounterend}]##4}
+\def\@spopargbegintheorem##1##2##3##4##5{\trivlist
+      \item[\hskip\labelsep{##4##2\ ##1}]{##4(##3)\@thmcounterend\ }##5}}
 
-% definition of \newtheorem* without number
+% definition of \spnewtheorem* without number
 
 \def\@sthm#1#2{\@Ynthm{#1}{#2}}
 
@@ -684,7 +751,6 @@ to\hsize{\vrule\kern3pt\vbox{\kern3pt
                            \item[\hskip\labelsep{#2#1\@thmcounterend}]}
 
 \def\@Opargbegintheorem#1#2#3#4{#4\trivlist
-%     \item[\hskip\labelsep{#3#1\ (#2)\@thmcounterend}]
       \item[\hskip\labelsep{#3#1}]{#3(#2)\@thmcounterend\ }}
 
 \if@envcntsect
@@ -700,8 +766,8 @@ to\hsize{\vrule\kern3pt\vbox{\kern3pt
 \fi
 
 %definition of divers theorem environments
-\spnewtheorem*{claim}{Claim\runinend}{\itshape}{\rmfamily}
-\spnewtheorem*{proof}{Proof\runinend}{\itshape}{\rmfamily}
+\spnewtheorem*{claim}{Claim}{\itshape}{\rmfamily}
+\spnewtheorem*{proof}{Proof}{\itshape}{\rmfamily}
 \if@envcntsame % alle Umgebungen wie Theorem.
    \def\spn@wtheorem#1#2#3#4{\@spothm{#1}[theorem]{#2}{#3}{#4}}
 \else % alle Umgebungen mit eigenem Zaehler
@@ -730,6 +796,18 @@ to\hsize{\vrule\kern3pt\vbox{\kern3pt
 \spn@wtheorem{question}{Question}{\itshape}{\rmfamily}
 \spn@wtheorem{solution}{Solution}{\bfseries}{\rmfamily}
 \spn@wtheorem{remark}{Remark}{\itshape}{\rmfamily}
+%
+\newenvironment{theopargself}
+    {\def\@spopargbegintheorem##1##2##3##4##5{\trivlist
+         \item[\hskip\labelsep{##4##1\ ##2}]{##4##3\@thmcounterend\ }##5}
+     \def\@Opargbegintheorem##1##2##3##4{##4\trivlist
+         \item[\hskip\labelsep{##3##1}]{##3##2\@thmcounterend\ }}}{}
+\newenvironment{theopargself*}
+    {\def\@spopargbegintheorem##1##2##3##4##5{\trivlist
+         \item[\hskip\labelsep{##4##1\ ##2}]{\hspace*{-\labelsep}##4##3\@thmcounterend}##5}
+     \def\@Opargbegintheorem##1##2##3##4{##4\trivlist
+         \item[\hskip\labelsep{##3##1}]{\hspace*{-\labelsep}##3##2\@thmcounterend}}}{}
+\fi
 
 \def\@takefromreset#1#2{%
     \def\@tempa{#1}%
@@ -744,17 +822,11 @@ to\hsize{\vrule\kern3pt\vbox{\kern3pt
     \@tempc
     \let\@elt\@tempd}
 
-\def\theopargself{\def\@spopargbegintheorem##1##2##3##4##5{\trivlist
-      \item[\hskip\labelsep{##4##1\ ##2\ ##3}]##5}
-                  \def\@Opargbegintheorem##1##2##3##4{##4\trivlist
-      \item[\hskip\labelsep{##3##1\ ##2}]}
-      }
-
 \def\squareforqed{\hbox{\rlap{$\sqcap$}$\sqcup$}}
 \def\qed{\ifmmode\else\unskip\quad\fi\squareforqed}
-%\def\qed{\ifmmode\squareforqed\else{\unskip\nobreak\hfil
-%\penalty50\hskip1em\null\nobreak\hfil\squareforqed
-%\parfillskip=0pt\finalhyphendemerits=0\endgraf}\fi}
+\def\smartqed{\def\qed{\ifmmode\squareforqed\else{\unskip\nobreak\hfil
+\penalty50\hskip1em\null\nobreak\hfil\squareforqed
+\parfillskip=0pt\finalhyphendemerits=0\endgraf}\fi}}
 
 % Define `abstract' environment
 \def\abstract{\topsep=0pt\partopsep=0pt\parsep=0pt\itemsep=0pt\relax
@@ -854,24 +926,28 @@ to\hsize{\vrule\kern3pt\vbox{\kern3pt
 
 \def\capstrut{\vrule\@width\z@\@height\topskip}
 
+\@ifundefined{captionstyle}{\def\captionstyle{\normalfont\small}}{}
+
 \long\def\@makecaption#1#2{%
+ \captionstyle
  \ifx\@captype\fig@type
    \vskip\figcapgap
-   \setbox\@tempboxa\hbox{{\floatlegendstyle #1\floatcounterend}%
-   \capstrut #2}%
-   \ifdim \wd\@tempboxa >\hsize
-     {\floatlegendstyle #1\floatcounterend}\capstrut #2\par
-   \else
-     \hbox to\hsize{\leftlegendglue\unhbox\@tempboxa\hfil}%
-   \fi
- \else
+ \fi
+ \setbox\@tempboxa\hbox{{\floatlegendstyle #1\floatcounterend}%
+ \capstrut #2}%
+ \ifdim \wd\@tempboxa >\hsize
    {\floatlegendstyle #1\floatcounterend}\capstrut #2\par
+ \else
+   \hbox to\hsize{\leftlegendglue\unhbox\@tempboxa\hfil}%
+ \fi
+ \ifx\@captype\fig@type\else
    \vskip\tabcapgap
  \fi}
 
 \newdimen\figgap\figgap=1cc
 \long\def\@makesidecaption#1#2{%
-   \parbox[b]{\@tempdima}{{\floatlegendstyle #1\floatcounterend}#2}}
+   \parbox[b]{\@tempdima}{\captionstyle{\floatlegendstyle
+                                         #1\floatcounterend}#2}}
 \def\sidecaption#1\caption{%
 \setbox\@tempboxa=\hbox{#1\unskip}%
 \if@twocolumn
@@ -1005,7 +1081,7 @@ to\hsize{\vrule\kern3pt\vbox{\kern3pt
        {Citation `\@citeb' on page \thepage \space undefined}}%
     {\setbox\z@\hbox{\global\@tempcntc0\csname b@\@citeb\endcsname\relax}%
      \ifnum\@tempcntc=\z@ \@citeo\@tempcntb\m@ne
-       \@citea\def\@citea{,}\hbox{\csname b@\@citeb\endcsname}%
+       \@citea\def\@citea{,\hskip0.1em\ignorespaces}\hbox{\csname b@\@citeb\endcsname}%
      \else
       \advance\@tempcntb\@ne
       \ifnum\@tempcntb=\@tempcntc
@@ -1057,6 +1133,87 @@ to\hsize{\vrule\kern3pt\vbox{\kern3pt
 \newcommand\abstractname{Abstract\runinend}
 \newcommand\ackname{Acknowledgements\runinend}
 \newcommand\noteaddname{Note added in proof}
+% French section
+\def\ds@francais{%
+ \typeout{On parle francais.}%
+ \def\abstractname{R\'esum\'e\runinend}%
+ \def\ackname{Remerciements\runinend}%
+ \def\andname{et}%
+ \def\lastandname{ et}%
+ \def\appendixname{Appendice}
+ \def\chaptername{Chapitre}%
+ \def\claimname{Pr\'etention}%
+ \def\conjecturename{Hypoth\`ese}%
+ \def\contentsname{Table des mati\`eres}%
+ \def\corollaryname{Corollaire}%
+ \def\definitionname{D\'efinition}%
+ \def\examplename{Exemple}%
+ \def\exercisename{Exercice}%
+ \def\figurename{Fig.}%
+ \def\keywordname{{\bfseries Mots-cl\'e\runinend}}
+ \def\indexname{Index}
+ \def\lemmaname{Lemme}%
+ \def\contriblistname{Liste des contributeurs}
+ \def\listfigurename{Liste des figures}%
+ \def\listtablename{Liste des tables}%
+ \def\mailname{{\itshape Correspondence to\/}:}
+ \def\noteaddname{Note ajout\'ee \`a l'\'epreuve}%
+ \def\notename{Remarque}%
+ \def\partname{Partie}%
+ \def\problemname{Probl\`eme}%
+ \def\proofname{Preuve}%
+ \def\propertyname{Caract\'eristique}%
+%\def\propositionname{Proposition}%
+ \def\questionname{Question}%
+ \def\refname{Bibliographie}%
+ \def\remarkname{Remarque}%
+ \def\seename{voyez}
+ \def\solutionname{Solution}%
+%\def\subclassname{{\it Subject Classifications\/}:}
+ \def\tablename{Tableau}%
+ \def\theoremname{Th\'eor\`eme}%
+}
+%
+% German section
+\def\ds@deutsch{\typeout{Man spricht deutsch.}%
+ \def\abstractname{Zusammenfassung\runinend}%
+ \def\ackname{Danksagung\runinend}%
+ \def\andname{und}%
+ \def\lastandname{ und}%
+ \def\appendixname{Anhang}%
+ \def\chaptername{Kapitel}%
+ \def\claimname{Behauptung}%
+ \def\conjecturename{Hypothese}%
+ \def\contentsname{Inhaltsverzeichnis}%
+ \def\corollaryname{Korollar}%
+%\def\definitionname{Definition}%
+ \def\examplename{Beispiel}%
+ \def\exercisename{\"Ubung}%
+ \def\figurename{Abb.}%
+ \def\keywordname{{\bfseries Schl\"usselw\"orter\runinend}}
+ \def\indexname{Index}
+%\def\lemmaname{Lemma}%
+ \def\contriblistname{Mitarbeiter}
+ \def\listfigurename{Abbildungsverzeichnis}%
+ \def\listtablename{Tabellenverzeichnis}%
+ \def\mailname{{\itshape Correspondence to\/}:}
+ \def\noteaddname{Nachtrag}%
+ \def\notename{Anmerkung}%
+ \def\partname{Teil}%
+%\def\problemname{Problem}%
+ \def\proofname{Beweis}%
+ \def\propertyname{Eigenschaft}%
+%\def\propositionname{Proposition}%
+ \def\questionname{Frage}%
+ \def\refname{Literatur}%
+ \def\remarkname{Anmerkung}%
+ \def\seename{siehe}
+ \def\solutionname{L\"osung}%
+%\def\subclassname{{\it Subject Classifications\/}:}
+ \def\tablename{Tabelle}%
+%\def\theoremname{Theorem}%
+}
+\AtBeginDocument{\switch@texts}
 \newcommand\today{}
 \edef\today{\ifcase\month\or
   January\or February\or March\or April\or May\or June\or
@@ -1082,3 +1239,4 @@ to\hsize{\vrule\kern3pt\vbox{\kern3pt
 \endinput
 %%
 %% End of file `svjour.cls'.
+

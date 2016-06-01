@@ -1,4 +1,4 @@
-% SVJour DOCUMENT CLASS OPTION EPJ -- European Physical Journal
+% SVJour DOCUMENT CLASS OPTION EPJ -- The European Physical Journal
 %
 % This is an enhancement for the
 % LaTeX document class for Springer journals (two column version)
@@ -21,11 +21,26 @@
 %%   Grave accent  \`     Left brace    \{     Vertical bar  \|
 %%   Right brace   \}     Tilde         \~}
 \ProvidesFile{svepj.clo}
-              [2009/12/01 v2.0
-      style option for European Physical Journal]
-\typeout{SVJour Class option: svepj.clo for European Physical Journal}
+              [2002/03/11 v1.2
+      style option for The European Physical Journal]
+\typeout{SVJour Class option: svepj.clo for The European Physical Journal}
 \DeclareOption{leqno}{\input{leqno.clo}}
+\let\if@nopacs\iffalse
+\DeclareOption{nopacs}{\let\if@nopacs\iftrue}
 \ExecuteOptions{final,twocolumn,10pt}
+\newif\if@normhead \@normheadtrue
+\def\hugehead{\@normheadfalse
+\let\ProcessRunnHead=\relax
+\onecolumn
+\let\thanks=\footnote
+\long\def\@makefntext##1{\parindent\bibindent
+     \columnwidth\textwidth
+     \advance\columnwidth -\columnsep
+     \divide\columnwidth\tw@
+     \hsize\columnwidth
+     \linewidth\columnwidth
+     \noindent\hbox to\parindent{\hss\@makefnmark\enspace}##1}%
+}
 \let\if@mathematic\iffalse
 % No size changing allowed, hence a copy of size10.clo is included
 \renewcommand\normalsize{%
@@ -71,7 +86,7 @@ later}
 %
     \renewcommand\thefootnote{\@fnsymbol\c@footnote}%
     \def\@makefnmark{$^{\@thefnmark}$}%
-    \def\switch@fnmark{\def\thefootnote{\alph{footnote}}}%
+    \def\switch@fnmark{\def\thefootnote{\mathrm{\alph{footnote}}}}
 %
  \def\lastand{\ifnum\value{inst}=2\relax
                  \unskip{} \andname\
@@ -88,14 +103,22 @@ later}
           \else
              \unskip,
           \fi}%
+ \thispagestyle{empty}
  \ifnum \col@number=\@ne
    \@maketitle
  \else
    \twocolumn[\@maketitle]%
  \fi
- \thispagestyle{empty}
  \global\@topnum\z@
- \@thanks
+ \if@normhead
+    \@thanks
+ \else
+    \twocolumn[\vspace{\@tempdima}]
+    \addtocounter{page}{-1}
+    \if!\the\authorrunning!
+       \authorrunning{ }%
+    \fi
+ \fi
  \if!\@mail!\else
     \footnotetext[0]{\kern-\bibindent\mailname\
     \ignorespaces\@mail}%
@@ -125,7 +148,9 @@ later}
  \vbox to0pt{\vskip-40pt
  \nointerlineskip
  \makeheadbox\vss}\nointerlineskip
- \setbox\authrun=\vbox\bgroup
+ \if@normhead
+    \setbox\authrun=\vbox\bgroup
+ \fi
  {\LARGE \sffamily\bfseries
   \hrule\@height\logodepth\@width\z@
   \pretolerance=10000
@@ -146,10 +171,10 @@ later}
  \lineskip .5em
  \switch@fnmark
  \def\@makefnmark{$^{\mathrm\@thefnmark}$}%
- \setcounter{footnote}{0}%
  \protected@xdef\@thanks{\@thanks\protect\switch@fnmark}%
  \setbox0=\vbox{\setcounter{auth}{1}\def\and{\stepcounter{auth} }%
                 \hfuzz=2\textwidth\def\thanks##1{}\@author}%
+ \setcounter{footnote}{0}%
  \value{inst}=\value{auth}%
  \setcounter{auth}{1}%
  \rightskip=0pt plus 2cm
@@ -174,19 +199,27 @@ later}
   {\sffamily\bfseries\abstractname}]%
   \leftskip=1.5cm\rightskip=\leftskip
   \@abstract
-  \@ifundefined{@PACS}{}{\@@PACS}
-  %%dec2009\ch@ckobl{PACS}{{XX.XX.XX}{No PACS code given}}%
-  %%dec2009\@@PACS
+  \if@nopacs\else
+     \ch@ckobl{PACS}{{XX.XX.XX}{No PACS code given}}%
+     \@@PACS
+  \fi
   \endtrivlist}%
- \egroup % end of header box
- \@tempdima=\headerboxheight
- \advance\@tempdima by-\ht\authrun
- \ifdim\@tempdima>0pt
-    \vrule width0pt height\@tempdima
+ \if@normhead
+    \egroup % end of header box
+    \@tempdima=\headerboxheight
+    \advance\@tempdima by-\ht\authrun
+    \ifdim\@tempdima>0pt
+       \vrule width0pt height\@tempdima
+    \fi
+    \unvbox\authrun
+    \global\@minipagetrue
+    \global\everypar{\global\@minipagefalse\global\everypar{}}
+ \else
+    \typeout{\the\c@auth\space author names and}
+    \typeout{\the\c@inst\space institutes processed}
+    \global\@tempdima=\pagetotal
+    \global\advance\@tempdima by22.47pt
  \fi
- \unvbox\authrun
- \global\@minipagetrue
- \global\everypar{\global\@minipagefalse\global\everypar{}}
  \vskip22.47pt
 }
 %
