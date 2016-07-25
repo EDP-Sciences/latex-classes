@@ -16,8 +16,8 @@
 %%   Right bracket \]     Circumflex    \^     Underscore    \_
 %%   Grave accent  \`     Left brace    \{     Vertical bar  \|
 %%   Right brace   \}     Tilde         \~}
-\def\filedate{2016/04/05}
-\def\fileversion{2.0}
+\def\filedate{2016/07/20}
+\def\fileversion{2.01}
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
 \ProvidesClass{webofc}
               [\filedate\space v\fileversion\space
@@ -69,8 +69,8 @@
   \setlength\woc@textwidth{142mm}%
   \setlength\woc@textheight{190mm}%
   \setlength\woc@left{14mm}%
-  \setlength\woc@top{29mm}%
-  \setlength\woc@bottom{20mm}%
+  \setlength\woc@top{28mm}%
+  \setlength\woc@bottom{19mm}%
   \def\woc@crop{\RequirePackage[cam,center]{crop}}%
 }
 \DeclareOption{twocolumn}{%
@@ -80,8 +80,8 @@
   \setlength\woc@textwidth{170mm}%
   \setlength\woc@textheight{240mm}%
   \setlength\woc@left{20mm}%
-  \setlength\woc@top{29mm}%
-  \setlength\woc@bottom{17mm}%
+  \setlength\woc@top{28mm}%
+  \setlength\woc@bottom{16mm}%
   \def\woc@crop{}%
 }
 \newcommand*\woc@column{}
@@ -134,12 +134,10 @@
   }%
 }
 %
-% default options
 \ExecuteOptions{anglais,onecolumn,online,utf8,showoverfull,bibnumber}
 %
 \ProcessOptions
-% Required packages
-%online version for 17x25 format
+%
 \if@online\else
 \woc@crop
 \fi
@@ -158,39 +156,38 @@
   \newcommand\woc@driver{pdftex}
 \fi
 \RequirePackage[\woc@driver, \woc@paper, \ifwoc@twocolumn\woc@column\fi, twoside,
-                top=\woc@top, bottom=\woc@bottom, textheight=\woc@textheight,
+                top=\woc@top, bottom=\woc@bottom, heightrounded,
                 left=\woc@left, textwidth=\woc@textwidth, columnsep=7mm,
                 marginparwidth=0in, marginparsep=0in,
-                headheight=14.5pt,headsep=16.5pt, nofoot]{geometry}
+                headheight=20.5pt,headsep=16.5pt, nofoot]{geometry}
 \RequirePackage[tbtags]{amsmath}
 \RequirePackage{amssymb}
 \RequirePackage{fancyhdr}
 \RequirePackage{cuted}
-% To avoid error with dblfloatfix
+%
 \let\@setmarks\relax
 \RequirePackage{graphicx}
 \RequirePackage{url, enumerate}
 \RequirePackage[sort&compress]{natbib}
 \woc@biblio
 \RequirePackage{xspace}
-\woc@language % (RequirePackage[<languages>]{babel}
+\woc@language
 %
 %%%%%%%%%%%%%%%%%
 %%% Registers %%%
 %%%%%%%%%%%%%%%%%
 %
-% symbols of \thanks
 \def\@fnsymbol#1{\ensuremath{\ifcase#1\or\star\or{\star}{\star}\or{\star}{\star}{\star}%
    \or {\star}{\star}{\star}{\star}\or \dagger\or \ddagger\or
    \mathchar "278\or \mathchar "27B\or \|\or **\or \dagger\dagger
    \or \ddagger\ddagger \else\@ctrerr\fi}}
 \newcommand\fnsep{\unskip$^,$}
-% number of institutes
+%
 \newcounter{@institutecpt}
-% gap between caption and float
+%
 \newlength{\@figgap}
 \setlength{\@figgap}{10pt}
-% Total height of figure
+%
 \newlength{\@floatheight}
 %
 \setlength\textfloatsep{20\p@ \@plus 2\p@ \@minus 4\p@}
@@ -274,9 +271,6 @@
 %%%% Font definitions %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% baselineskip is always 1.2xfontsize
-% no \small, \large and cie. in order to be as free as possible!
-%
 \newcommand\@HeadFont{\normalfont\small}
 \newcommand\@HeadPageFont{\normalfont\normalsize}
 \newcommand\@TitleFont{\normalfont\fontsize{14pt}{16pt}\sffamily\bfseries}
@@ -315,10 +309,9 @@
 %%% Length definitions %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-%%%% Dimension for space between number and text of titles
 \newlength{\betweenumberspace}
 \setlength{\betweenumberspace}{6pt}
-%%%%%
+%
 \setlength{\parskip}{0pt plus1pt}
 \newlength{\@VSpaceBeforeTitle}
 \setlength{\@VSpaceBeforeTitle}{2cm}
@@ -387,10 +380,10 @@
   }%
 }
 \pagestyle{otherpage}
-%%%%%% To prevent orphan lines
+%
 \clubpenalty=10000
 \widowpenalty=10000
-%%%%%%
+%
 \flushbottom
 \sloppy
 %
@@ -419,7 +412,6 @@ e-mail: \protect\@email{#1}%
   \def\@dateacceptance{#2}%
 }
 %
-% default values
 \def\@headnote{}
 \def\@title{%
   \ClassError{webofc}
@@ -457,13 +449,19 @@ e-mail: \protect\@email{#1}%
   \gdef\@headerauthor{}%
   \def\@typeauthor{0}%
   \ifnum\count@=1\relax
+    % no \and to process
+    % one author in header
     \def\@typeauthor{1}%
   \else\ifnum\count@=2\relax
+    % juste one \and
     \let\@andlastauthor\andtwoname
+    % two author in header
     \def\@typeauthor{2}%
-  \else% 
+  \else % > 2
+    % real list
     \let\@andauthor\andname
     \let\@andlastauthor\andlastname
+    % one author et al. in header
     \def\@typeauthor{3}%
   \fi\fi
   \@AuthorFont
@@ -480,21 +478,29 @@ e-mail: \protect\@email{#1}%
   \def\@rg{#1}%
   \advance\count@ \m@ne
   \ifnum\count@>-1\relax
+    % for header
     \ifnum\@typeauthor>0
       \@extractauthor
       \gdef\@headerauthor{\@currentheaderauthor}%
       \ifcase\@typeauthor
+        % 0 impossible
         \or
+        % 1 -> nothing to do
+          % no more author
           \def\@typeauthor{0}%
         \or
+        % 2 -> and
           \protected@xdef\@headerauthor{%
             \@headerauthor\space and
           }
+          % add the next author
           \def\@typeauthor{-1}%
         \or
+        % 3 -> et al.
           \protected@xdef\@headerauthor{%
             \@headerauthor\space et al.%
           }
+          % no more author
           \def\@typeauthor{0}%
       \fi
     \else\ifnum\@typeauthor<0
@@ -503,6 +509,7 @@ e-mail: \protect\@email{#1}%
         \@headerauthor \@currentheaderauthor
       }
     \fi\fi
+    % for first page
     \ifnum\count@=0\relax
        #1
     \else\ifnum\count@=1\relax
@@ -514,6 +521,9 @@ e-mail: \protect\@email{#1}%
   \fi
 }
 \def\@extractauthor{%
+  % examine \@rg = <first name> <name>
+  % exctract first letter of <first name>
+  % and add <name>. Result in \@currentheaderauthor
   \def\@currentheaderauthor{}%
   \expandafter\@@extractauthor\@rg\inst\thanks\@nil
 }
@@ -555,6 +565,8 @@ e-mail: \protect\@email{#1}%
 }
 {\endlist\vspace*{\@VSpaceAfterAbstract}}
 %
+% real command to typeset introduction
+%
 \renewcommand*\maketitle{%
   \thispagestyle{firstpage}
   \ifwoc@twocolumn
@@ -589,8 +601,13 @@ e-mail: \protect\@email{#1}%
         \vspace*{\@VSpaceAfterTitle}
       \fi
       %author
+      % process \and display author(s) and build header
+      %\switch@fnmark
+      %\protected@xdef\@thanks{\@thanks\protect\switch@fnmark}
       \protected@xdef\@thanks{\@thanks}
+      %\setcounter{footnote}{0}
       \@parseauthor
+      % display institute(s)
       \ifx\@institute\empty
       \else
         \par\vspace*{\@VSpaceBeforeInstitute}
@@ -736,6 +753,7 @@ e-mail: \protect\@email{#1}%
 \renewcommand\@makecaption[2]{%
   \par\addvspace\abovecaptionskip
   \ifx\@captype\string@table
+    % Table: centering caption
     \begingroup
       \centering
       \@CaptionFont{%
@@ -745,6 +763,7 @@ e-mail: \protect\@email{#1}%
       \par
     \endgroup
   \else
+    % Figure (and others?): justified
     \begingroup
       \@CaptionFont{%
         \@CaptionTitleFont #1%
