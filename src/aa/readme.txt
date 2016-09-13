@@ -1,5 +1,5 @@
 %                                                             readme.txt
-% AA v9 LaTeX class for Astronomy & Astrophysics
+% AA LaTeX class for Astronomy & Astrophysics
 % read-me file
 %                                                 (c) EDP Sciences, 2016
 %                                            tex-support@edpsciences.org
@@ -17,7 +17,7 @@ The following files are part of the macro package AA
    aa.bst       Bibliography style file
    natnotes.pdf Brief reference sheet for Natbib
 
-All files are compressed in a single archive: aa-package.tar.gz
+All files are compressed in a single archive: aa-package.zip
 
 %---------------------------------------------------------------------
 %                            Main changes in the previous 8.x versions 
