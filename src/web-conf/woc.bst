@@ -1139,7 +1139,7 @@ FUNCTION {format.eprint}
 FUNCTION {format.url}
 { url empty$
     { "" }
-    { "\texttt{" url * "}" * }           %%EDP Sciences: { "\urlprefix\url{" url * "}" * }
+    { "\urlstyle{tt}\url{" url * "}" * }           %%Correction by foley at ru dot is
   if$
 }
 
